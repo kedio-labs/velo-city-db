@@ -1,0 +1,109 @@
+# VéloCityDB
+
+    ██╗   ██╗███████╗██╗      ██████╗  ██████╗██╗████████╗██╗   ██╗██████╗ ██████╗ 
+    ██║   ██║██╔════╝██║     ██╔═══██╗██╔════╝██║╚══██╔══╝╚██╗ ██╔╝██╔══██╗██╔══██╗
+    ██║   ██║█████╗  ██║     ██║   ██║██║     ██║   ██║    ╚████╔╝ ██║  ██║██████╔╝
+    ╚██╗ ██╔╝██╔══╝  ██║     ██║   ██║██║     ██║   ██║     ╚██╔╝  ██║  ██║██╔══██╗
+     ╚████╔╝ ███████╗███████╗╚██████╔╝╚██████╗██║   ██║      ██║   ██████╔╝██████╔╝
+      ╚═══╝  ╚══════╝╚══════╝ ╚═════╝  ╚═════╝╚═╝   ╚═╝      ╚═╝   ╚═════╝ ╚═════╝ 
+
+This project creates an SQLite database gathering bicycle traffic measurements from several cities.
+
+The database itself is not released as an artifact because of its large size. Instead, you can use this project to
+create that database locally.
+
+Cities gather their bicycle traffic differently. For each measurement, VéloCityDB standardises that variety of data into
+the following dimensions:
+
+- City name
+- Measurement location
+    - These are usually traffic counting terminals spread across the city
+- Hourly traffic count 
+- Measurement timestamp
+
+VéloCityDB is a great building block for use cases such as analysis and dashboards.
+
+Cities currently supported are, in alphabetic order:
+
+| Country | City       | Data Source                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Data Format | Data Licence                                                                                |
+|---------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------|
+| France  | Bordeaux   | [Capteur de trafic vélo - historique horaire](https://opendata.bordeaux-metropole.fr/explore/dataset/pc_captv_p_histo_heure/information/?disjunctive.gid&disjunctive.ident)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | CSV         | [Licence Ouverte / Open Licence](https://www.etalab.gouv.fr/licence-ouverte-open-licence)   |
+| France  | Nantes     | [Comptages vélo de Nantes Métropole](https://data.nantesmetropole.fr/explore/dataset/244400404_comptages-velo-nantes-metropole/export/?disjunctive.boucle_num&disjunctive.libelle&disjunctive.jour_de_la_semaine&disjunctive.boucle_libelle&sort=jour&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJsaW5lIiwiZnVuYyI6IlNVTSIsInlBeGlzIjoidG90YWwiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMDg3RkEzIn1dLCJ4QXhpcyI6ImpvdXIiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiJkYXkiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiIyNDQ0MDA0MDRfY29tcHRhZ2VzLXZlbG8tbmFudGVzLW1ldHJvcG9sZSIsIm9wdGlvbnMiOnsiZGlzanVuY3RpdmUuYm91Y2xlX251bSI6dHJ1ZSwiZGlzanVuY3RpdmUubGliZWxsZSI6dHJ1ZSwiZGlzanVuY3RpdmUuam91cl9kZV9sYV9zZW1haW5lIjp0cnVlLCJkaXNqdW5jdGl2ZS5ib3VjbGVfbGliZWxsZSI6dHJ1ZSwic29ydCI6ImpvdXIifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D) | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
+| France  | Paris      | [Comptage vélo - Données compteurs](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJzdW1fY291bnRzIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiI0ZBOEM0NCJ9XSwieEF4aXMiOiJkYXRlIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoibW9udGgiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJjb21wdGFnZS12ZWxvLWRvbm5lZXMtY29tcHRldXJzIiwib3B0aW9ucyI6eyJkaXNqdW5jdGl2ZS5pZF9jb21wdGV1ciI6dHJ1ZSwiZGlzanVuY3RpdmUubm9tX2NvbXB0ZXVyIjp0cnVlLCJkaXNqdW5jdGl2ZS5pZCI6dHJ1ZSwiZGlzanVuY3RpdmUubmFtZSI6dHJ1ZX19fV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWUsInRpbWVzY2FsZSI6IiJ9)                                                                                             | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
+| France  | Strasbourg | [strasbourgvelo.fr](https://strasbourgvelo.fr/compteurs.csv) (processed by taking data from [SIRAC - flux trafic en temps réel](https://data.strasbourg.eu/explore/dataset/sirac_flux_trafic/information))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
+
+### How to run
+
+You will need Java 11 or above.
+
+VéloCityDB is released as a fat JAR that works on Linux, MacOS and Windows.
+
+Download the latest JAR from the releases page and run the following:
+
+```bash
+# See all available commands
+ java -jar velo-city-db-0.1.0-standalone.jar --help
+ 
+# Ingest into a new database that will be created under /database/target/directory
+java -jar velo-city-db-0.1.0-standalone.jar --data-directory-path /database/target/directory
+
+# Force re-download existing CSV files 
+java -jar velo-city-db-0.1.0-standalone.jar --override-csv-files true --data-directory-path /database/target/directory
+```
+
+The app will download bicycle traffic data in CSV format for all supported cities and ingest the data in an SQLite
+database. Patience is a bliss, the whole process can take some time!
+
+Once the process has completed, you should have a new SQLite database located at the location provided with the flag `--data-directory-path`.
+
+### How to run tests
+
+This project uses Gradle as a build tool.
+
+```bash
+# From the project root directory
+
+# Run unit tests and integration tests
+./gradlew test integrationTest
+```
+
+### How to add a new city
+
+First of all, thank you for your interest in this project and in adding a new city to the database!
+
+Whichever path below you choose, the best way to contribute is by raising a PR that also includes unit and integration
+tests! :)
+
+#### The easier path (a.k.a "Easy peasy lemon squeezy")
+
+If a CSV-formatted version of the bicycle traffic data is available, you can have a look at how currently supported
+cities are ingested in VéloCityDB. This consists in:
+
+- Adding the relevant city name and enpdoint to `src/main/resources/data-sources.yml`
+    - The city name must be pascal cased, with alphanumeric characters only, i.e. `MyNewCity`.
+- Writing a CSV parser for that city in the package located at `src/main/kotlin/parse`.
+    - The CSV parser class must have a name of the pattern `MyNewCityCsvParser` where `MyNewCity` is the exact same name as the one used in `data-sources.yml`
+
+#### The more involved path (a.k.a "I shall design a turbocharger all by myself")
+
+If there is no CSV-formatted version of the bicycle traffic data for that new city, you will need to introduce new
+logic. You can either convert the data into CSV so that you can piggyback on the CSV route described above, or create whole new logic all the way to the DB ingestion steps.
+
+### What's in the name?
+
+VéloCity is a play on words involving:
+
+- On one hand, _Vélo_ - French for bicycle - and _City_
+- On the other hand the word _velocity_ which can be roughly defined as "the speed and direction of motion of an object" (thank you [Wikipedia](https://en.wikipedia.org/wiki/Velocity)).
+
+### Wishlist
+
+- More cities
+- For convenience, Docker container that runs VéloCityDB and also packs a pre-configured analytics tool
+  - Tool such as Metabase with pre-configured queries and dashboards to have a quick overview of the data in VéloCityDB
+
+### License
+
+3-Clause BSD License.
+
+See file named LICENSE at the root of the project.
