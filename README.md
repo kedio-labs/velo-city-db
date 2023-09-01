@@ -21,7 +21,9 @@ the following dimensions:
 - Hourly traffic count
 - Measurement timestamp
 
-VéloCityDB is a great building block for use cases such as analysis and dashboards.
+> VéloCityDB is a great building block for use cases such as analysis and dashboards.
+> 
+> For inspiration, you can have a look at query and visualisation examples [here](./examples-queries/ExampleQueries.md).
 
 Cities currently supported are, in alphabetic order:
 
@@ -31,11 +33,6 @@ Cities currently supported are, in alphabetic order:
 | France  | Nantes     | [Comptages vélo de Nantes Métropole](https://data.nantesmetropole.fr/explore/dataset/244400404_comptages-velo-nantes-metropole/export/?disjunctive.boucle_num&disjunctive.libelle&disjunctive.jour_de_la_semaine&disjunctive.boucle_libelle&sort=jour&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJsaW5lIiwiZnVuYyI6IlNVTSIsInlBeGlzIjoidG90YWwiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMDg3RkEzIn1dLCJ4QXhpcyI6ImpvdXIiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiJkYXkiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiIyNDQ0MDA0MDRfY29tcHRhZ2VzLXZlbG8tbmFudGVzLW1ldHJvcG9sZSIsIm9wdGlvbnMiOnsiZGlzanVuY3RpdmUuYm91Y2xlX251bSI6dHJ1ZSwiZGlzanVuY3RpdmUubGliZWxsZSI6dHJ1ZSwiZGlzanVuY3RpdmUuam91cl9kZV9sYV9zZW1haW5lIjp0cnVlLCJkaXNqdW5jdGl2ZS5ib3VjbGVfbGliZWxsZSI6dHJ1ZSwic29ydCI6ImpvdXIifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D) | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 | France  | Paris      | [Comptage vélo - Données compteurs](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJzdW1fY291bnRzIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiI0ZBOEM0NCJ9XSwieEF4aXMiOiJkYXRlIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoibW9udGgiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJjb21wdGFnZS12ZWxvLWRvbm5lZXMtY29tcHRldXJzIiwib3B0aW9ucyI6eyJkaXNqdW5jdGl2ZS5pZF9jb21wdGV1ciI6dHJ1ZSwiZGlzanVuY3RpdmUubm9tX2NvbXB0ZXVyIjp0cnVlLCJkaXNqdW5jdGl2ZS5pZCI6dHJ1ZSwiZGlzanVuY3RpdmUubmFtZSI6dHJ1ZX19fV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWUsInRpbWVzY2FsZSI6IiJ9)                                                                                             | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 | France  | Strasbourg | [strasbourgvelo.fr](https://strasbourgvelo.fr/compteurs.csv) (processed by taking data from [SIRAC - flux trafic en temps réel](https://data.strasbourg.eu/explore/dataset/sirac_flux_trafic/information))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
-
-
-> ℹ Have a look at query and visualisation examples [here](./examples-queries/ExampleQueries.md).
-
-
 
 ## How to run
 
