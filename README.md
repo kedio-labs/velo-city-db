@@ -21,8 +21,9 @@ the following dimensions:
 - Hourly traffic count
 - Measurement timestamp
 
-> VéloCityDB is a great building block for use cases such as analysis and dashboards.
-> 
+> [!NOTE]<br>
+> VéloCityDB is a great building block for use cases such as data analysis and dashboards.
+>
 > For inspiration, you can have a look at query and visualisation examples [here](./examples-queries/ExampleQueries.md).
 
 Cities currently supported are, in alphabetic order:
@@ -39,7 +40,8 @@ Cities currently supported are, in alphabetic order:
 This app will download bicycle traffic data in CSV format for all supported cities and ingest the data in an SQLite
 database. Patience is a bliss, the whole process can take some time!
 
-Once you have created the database, you can have a look at some query examples [here](./examples-queries/ExampleQueries.md).
+Once you have created the database, you can have a look at some query
+examples [here](./examples-queries/ExampleQueries.md).
 
 ### Via Docker (Batteries included)
 
@@ -69,7 +71,8 @@ make build-fatjar
 make run
 ```
 
-If you need to run the app with specific flags, this is not currently supported via the Makefile. Download the latest JAR from the releases
+If you need to run the app with specific flags, this is not currently supported via the Makefile. Download the latest
+JAR from the releases
 page and run the following:
 
 ```bash
