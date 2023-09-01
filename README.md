@@ -24,7 +24,7 @@ the following dimensions:
 > [!NOTE]<br>
 > VéloCityDB is a great building block for use cases such as data analysis and dashboards.
 >
-> For inspiration, you can have a look at query and visualisation examples [here](examples-queries/ExampleQueries.md).
+> For inspiration, you can have a look at query and visualisation examples [here](velo-city-db/examples-queries/ExampleQueries.md).
 
 Cities currently supported are, in alphabetic order:
 
@@ -41,7 +41,7 @@ This app will download bicycle traffic data in CSV format for all supported citi
 database. Patience is a bliss, the whole process can take some time!
 
 Once you have created the database, you can have a look at some query
-examples [here](examples-queries/ExampleQueries.md).
+examples [here](velo-city-db/examples-queries/ExampleQueries.md).
 
 ### Via Docker (Batteries included)
 
