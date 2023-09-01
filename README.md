@@ -40,8 +40,11 @@ database. Patience is a bliss, the whole process can take some time!
 ### Via Docker (Batteries included)
 
 ```bash
-docker build -t velocitydb .
-docker run -v $(pwd)/data:/data:rw velocitydb
+# build the docker image
+make docker-build
+
+# run it
+make docker-run
 ```
 
 The database should be created in a new `data` directory under the project root.
@@ -52,31 +55,50 @@ You will need Java 11 or above.
 
 VéloCityDB is released as a fat JAR that works on Linux, macOS and Windows.
 
-Download the latest JAR from the releases page and run the following:
+Clone this repository and run the following:
 
 ```bash
-# See all available commands
- java -jar velo-city-db-0.1.0-standalone.jar --help
- 
-# Ingest into a new database that will be created under /database/target/directory
-java -jar velo-city-db-0.1.0-standalone.jar --data-directory-path /database/target/directory
+# Build the fat JAR
+make build-fatjar
 
-# Force re-download existing CSV files 
-java -jar velo-city-db-0.1.0-standalone.jar --override-csv-files true --data-directory-path /database/target/directory
+# Run VéloCityDB
+make run
 ```
 
-Once the process has completed, you should have a new SQLite database located at the location provided with the
-flag `--data-directory-path`.
+If you need to run the app with specific flags, this is not currently supported via the Makefile. Download the latest JAR from the releases
+page and run the following:
+
+```bash
+mkdir data
+
+# Passing specific flags
+# See all available flags
+java -jar velo-city-db-0.1.0-standalone.jar --help
+# Ingest into a new database that will be created under /database/target/directory
+java -jar velo-city-db-0.1.0-standalone.jar --data-directory-path $(pwd)/data
+# Force re-download existing CSV files 
+java -jar velo-city-db-0.1.0-standalone.jar --override-csv-files true --data-directory-path $(pwd)/data
+```
+
+Once the process has completed, you should have a new SQLite database located in the directory named `data`.
 
 ## How to run tests
 
-This project uses Gradle as a build tool.
+```bash
+# all tests
+make test
+
+# unit tests only
+make test-unit
+
+# integration tests only
+make test-integration
+```
+
+## How to build a fat JAR
 
 ```bash
-# From the project root directory
-
-# Run unit tests and integration tests
-./gradlew test integrationTest
+make build-fatjar
 ```
 
 ## How to add a new city
