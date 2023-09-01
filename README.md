@@ -41,7 +41,7 @@ This app will download bicycle traffic data in CSV format for all supported citi
 database. Patience is a bliss, the whole process can take some time!
 
 Once you have created the database, you can have a look at some query
-examples [here](./velo-city-db/tree/main/examples-queries/ExampleQueries.md).
+examples [here](./examples-queries/ExampleQueries.md).
 
 ### Via Docker (Batteries included)
 
