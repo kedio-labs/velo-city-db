@@ -18,7 +18,7 @@ the following dimensions:
 - City name
 - Measurement location
     - These are usually traffic counting terminals spread across the city
-- Hourly traffic count 
+- Hourly traffic count
 - Measurement timestamp
 
 VéloCityDB is a great building block for use cases such as analysis and dashboards.
@@ -32,11 +32,25 @@ Cities currently supported are, in alphabetic order:
 | France  | Paris      | [Comptage vélo - Données compteurs](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJzdW1fY291bnRzIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiI0ZBOEM0NCJ9XSwieEF4aXMiOiJkYXRlIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoibW9udGgiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJjb21wdGFnZS12ZWxvLWRvbm5lZXMtY29tcHRldXJzIiwib3B0aW9ucyI6eyJkaXNqdW5jdGl2ZS5pZF9jb21wdGV1ciI6dHJ1ZSwiZGlzanVuY3RpdmUubm9tX2NvbXB0ZXVyIjp0cnVlLCJkaXNqdW5jdGl2ZS5pZCI6dHJ1ZSwiZGlzanVuY3RpdmUubmFtZSI6dHJ1ZX19fV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWUsInRpbWVzY2FsZSI6IiJ9)                                                                                             | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 | France  | Strasbourg | [strasbourgvelo.fr](https://strasbourgvelo.fr/compteurs.csv) (processed by taking data from [SIRAC - flux trafic en temps réel](https://data.strasbourg.eu/explore/dataset/sirac_flux_trafic/information))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 
-### How to run
+## How to run
+
+This app will download bicycle traffic data in CSV format for all supported cities and ingest the data in an SQLite
+database. Patience is a bliss, the whole process can take some time!
+
+### Via Docker (Batteries included)
+
+```bash
+docker build -t velocitydb .
+docker run -v $(pwd)/data:/data:rw velocitydb
+```
+
+The database should be created in a new `data` directory under the project root.
+
+### On a local machine (Bring your own batteries)
 
 You will need Java 11 or above.
 
-VéloCityDB is released as a fat JAR that works on Linux, MacOS and Windows.
+VéloCityDB is released as a fat JAR that works on Linux, macOS and Windows.
 
 Download the latest JAR from the releases page and run the following:
 
@@ -51,12 +65,10 @@ java -jar velo-city-db-0.1.0-standalone.jar --data-directory-path /database/targ
 java -jar velo-city-db-0.1.0-standalone.jar --override-csv-files true --data-directory-path /database/target/directory
 ```
 
-The app will download bicycle traffic data in CSV format for all supported cities and ingest the data in an SQLite
-database. Patience is a bliss, the whole process can take some time!
+Once the process has completed, you should have a new SQLite database located at the location provided with the
+flag `--data-directory-path`.
 
-Once the process has completed, you should have a new SQLite database located at the location provided with the flag `--data-directory-path`.
-
-### How to run tests
+## How to run tests
 
 This project uses Gradle as a build tool.
 
@@ -67,42 +79,46 @@ This project uses Gradle as a build tool.
 ./gradlew test integrationTest
 ```
 
-### How to add a new city
+## How to add a new city
 
 First of all, thank you for your interest in this project and in adding a new city to the database!
 
-Whichever path below you choose, the best way to contribute is by raising a PR that also includes unit and integration
-tests! :)
+The best way to contribute is by raising a PR that includes both business logic and tests!
 
-#### The easier path (a.k.a "Easy peasy lemon squeezy")
+The codebase is in Kotlin. Contributions of all technical levels are welcome.
 
-If a CSV-formatted version of the bicycle traffic data is available, you can have a look at how currently supported
-cities are ingested in VéloCityDB. This consists in:
+### The easier path ("Easy peasy lemon squeezy")
 
-- Adding the relevant city name and enpdoint to `src/main/resources/data-sources.yml`
+If a CSV version of the bicycle traffic data is available in a single file, you can have a look at how currently
+supported cities are ingested in VéloCityDB. This consists in:
+
+- Adding the relevant city name and endpoint to `src/main/resources/data-sources.yml`
     - The city name must be pascal cased, with alphanumeric characters only, i.e. `MyNewCity`.
 - Writing a CSV parser for that city in the package located at `src/main/kotlin/parse`.
-    - The CSV parser class must have a name of the pattern `MyNewCityCsvParser` where `MyNewCity` is the exact same name as the one used in `data-sources.yml`
+    - The CSV parser class must have a name of the pattern `MyNewCityCsvParser` where `MyNewCity` is the exact same name
+      as the one used in `data-sources.yml`
 
-#### The more involved path (a.k.a "I shall design a turbocharger all by myself")
+### The more involved path ("I shall design a turbocharger all by myself")
 
-If there is no CSV-formatted version of the bicycle traffic data for that new city, you will need to introduce new
-logic. You can either convert the data into CSV so that you can piggyback on the CSV route described above, or create whole new logic all the way to the DB ingestion steps.
+If you need to introduce new logic, you can either convert the data into CSV file so that you can piggyback on the CSV
+parsing code described above, or create completely new logic. :)
 
-### What's in the name?
+## What's in the name?
 
 VéloCity is a play on words involving:
 
 - On one hand, _Vélo_ - French for bicycle - and _City_
-- On the other hand the word _velocity_ which can be roughly defined as "the speed and direction of motion of an object" (thank you [Wikipedia](https://en.wikipedia.org/wiki/Velocity)).
+- On the other hand the word _velocity_ which can be roughly defined as "the speed and direction of motion of an
+  object" (thank you, [Wikipedia](https://en.wikipedia.org/wiki/Velocity)).
 
-### Wishlist
+## Wishlist
 
-- More cities
-- For convenience, Docker container that runs VéloCityDB and also packs a pre-configured analytics tool
-  - Tool such as Metabase with pre-configured queries and dashboards to have a quick overview of the data in VéloCityDB
+- Add more cities
+- Ingest geolocation data where available
+- For convenience, create a Docker container that packs a pre-configured analytics tool
+    - e.g. a tool such as Metabase with pre-configured queries and dashboards to have a quick overview of VéloCityDB
 
-### License
+## License
 
 3-Clause BSD License.
 
