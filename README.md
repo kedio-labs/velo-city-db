@@ -33,7 +33,9 @@ Cities currently supported are, in alphabetic order:
 | France  | Strasbourg | [strasbourgvelo.fr](https://strasbourgvelo.fr/compteurs.csv) (processed by taking data from [SIRAC - flux trafic en temps réel](https://data.strasbourg.eu/explore/dataset/sirac_flux_trafic/information))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 
 
-Have a look at query and visualisation examples [here](./examples-queries/ExampleQueries.md).
+> ℹ Have a look at query and visualisation examples [here](./examples-queries/ExampleQueries.md).
+
+
 
 ## How to run
 
