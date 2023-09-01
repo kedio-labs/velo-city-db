@@ -32,10 +32,15 @@ Cities currently supported are, in alphabetic order:
 | France  | Paris      | [Comptage vélo - Données compteurs](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJzdW1fY291bnRzIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiI0ZBOEM0NCJ9XSwieEF4aXMiOiJkYXRlIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoibW9udGgiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJjb21wdGFnZS12ZWxvLWRvbm5lZXMtY29tcHRldXJzIiwib3B0aW9ucyI6eyJkaXNqdW5jdGl2ZS5pZF9jb21wdGV1ciI6dHJ1ZSwiZGlzanVuY3RpdmUubm9tX2NvbXB0ZXVyIjp0cnVlLCJkaXNqdW5jdGl2ZS5pZCI6dHJ1ZSwiZGlzanVuY3RpdmUubmFtZSI6dHJ1ZX19fV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWUsInRpbWVzY2FsZSI6IiJ9)                                                                                             | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 | France  | Strasbourg | [strasbourgvelo.fr](https://strasbourgvelo.fr/compteurs.csv) (processed by taking data from [SIRAC - flux trafic en temps réel](https://data.strasbourg.eu/explore/dataset/sirac_flux_trafic/information))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | CSV         | [Open Data Commons Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl) |
 
+
+Have a look at query and visualisation examples [here](./examples-queries/ExampleQueries.md).
+
 ## How to run
 
 This app will download bicycle traffic data in CSV format for all supported cities and ingest the data in an SQLite
 database. Patience is a bliss, the whole process can take some time!
+
+Once you have created the database, you can have a look at some query examples [here](./examples-queries/ExampleQueries.md).
 
 ### Via Docker (Batteries included)
 
