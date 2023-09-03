@@ -2,12 +2,8 @@ package parse
 
 import CityTrafficMeasurement
 import HasResourcePathGetter.Companion.getResourcePath
-import io.mockk.Called
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -38,18 +34,12 @@ class StrasbourgCsvParserTest {
         // given
         val ingestMock = mockk<(List<CityTrafficMeasurement>) -> Unit>()
 
-        every { ingestMock(any()) } answers {
-            // then
-            @Suppress("UNCHECKED_CAST")
-            val actual = it.invocation.args.first() as List<CityTrafficMeasurement>
-
-            assertTrue(actual.isEmpty())
-        }
-
         // when
         StrasbourgCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/strasbourg/strasbourg-test-comma.csv")
         )
+
+        verify { ingestMock wasNot called }
     }
 
     @Test
@@ -69,6 +59,8 @@ class StrasbourgCsvParserTest {
         StrasbourgCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/strasbourg/strasbourg-test-empty-date.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @ParameterizedTest
@@ -88,6 +80,8 @@ class StrasbourgCsvParserTest {
 
         // when
         StrasbourgCsvParser(ingestMock).parseAndIngest(getResourcePath(resourcePath))
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -108,6 +102,8 @@ class StrasbourgCsvParserTest {
         StrasbourgCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/strasbourg/strasbourg-test-empty-sum-counts.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -163,6 +159,8 @@ class StrasbourgCsvParserTest {
         StrasbourgCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/strasbourg/strasbourg-test.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -181,5 +179,7 @@ class StrasbourgCsvParserTest {
         StrasbourgCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/strasbourg/strasbourg-test-empty-location.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 }

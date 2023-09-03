@@ -63,6 +63,8 @@ class NantesCsvParserTest {
         NantesCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/nantes/nantes-test-empty-day.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -83,6 +85,8 @@ class NantesCsvParserTest {
         NantesCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/nantes/nantes-test-invalid-hourly-traffic-count.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -101,6 +105,8 @@ class NantesCsvParserTest {
 
         // when
         NantesCsvParser(ingestMock).parseAndIngest(getResourcePath("/data/nantes/nantes-test-invalid-day.csv"))
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -120,6 +126,8 @@ class NantesCsvParserTest {
         NantesCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/nantes/nantes-test-empty-hourly-traffic-count.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -164,6 +172,8 @@ class NantesCsvParserTest {
 
         // when
         NantesCsvParser(ingestMock).parseAndIngest(getResourcePath("/data/nantes/nantes-test.csv"))
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -182,5 +192,7 @@ class NantesCsvParserTest {
         NantesCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/nantes/nantes-test-empty-location.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 }

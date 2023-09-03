@@ -61,6 +61,8 @@ class BordeauxCsvParserTest {
         BordeauxCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/bordeaux/bordeaux-test-empty-date.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @ParameterizedTest
@@ -78,6 +80,8 @@ class BordeauxCsvParserTest {
 
         // when
         BordeauxCsvParser(ingestMock).parseAndIngest(getResourcePath(resourcePath))
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -97,6 +101,8 @@ class BordeauxCsvParserTest {
         BordeauxCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/bordeaux/bordeaux-test-empty-hourly-traffic-count.csv"),
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -115,6 +121,8 @@ class BordeauxCsvParserTest {
         BordeauxCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/bordeaux/bordeaux-test-has-ponctuel.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -169,6 +177,8 @@ class BordeauxCsvParserTest {
         BordeauxCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/bordeaux/bordeaux-test.csv"),
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -187,5 +197,7 @@ class BordeauxCsvParserTest {
         BordeauxCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/bordeaux/bordeaux-test-empty-location.csv"),
         )
+
+        verify { ingestMock(any()) }
     }
 }

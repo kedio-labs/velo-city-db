@@ -61,6 +61,8 @@ class ParisCsvParserTest {
 
         // when
         ParisCsvParser(ingestMock).parseAndIngest(getResourcePath("/data/paris/paris-test-empty-date.csv"))
+
+        verify { ingestMock(any()) }
     }
 
     @ParameterizedTest
@@ -79,6 +81,8 @@ class ParisCsvParserTest {
 
         // when
         ParisCsvParser(ingestMock).parseAndIngest(getResourcePath(resourcePath))
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -99,6 +103,8 @@ class ParisCsvParserTest {
         ParisCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/paris/paris-test-empty-hourly-traffic-count.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -151,6 +157,8 @@ class ParisCsvParserTest {
 
         // when
         ParisCsvParser(ingestMock).parseAndIngest(getResourcePath("/data/paris/paris-test.csv"))
+
+        verify { ingestMock(any()) }
     }
 
     @Test
@@ -169,5 +177,7 @@ class ParisCsvParserTest {
         ParisCsvParser(ingestMock).parseAndIngest(
             getResourcePath("/data/paris/paris-test-empty-location.csv")
         )
+
+        verify { ingestMock(any()) }
     }
 }
