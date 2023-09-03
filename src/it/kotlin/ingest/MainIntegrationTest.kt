@@ -51,6 +51,7 @@ class MainIntegrationTest {
         assertEquals(5999, dataLayer!!.getNumberOfMeasurementsForCity("Bordeaux"))
         assertEquals(143976, dataLayer!!.getNumberOfMeasurementsForCity("Nantes"))
         assertEquals(5999, dataLayer!!.getNumberOfMeasurementsForCity("Paris"))
+        assertEquals(5999, dataLayer!!.getNumberOfMeasurementsForCity("Rennes"))
         assertEquals(5999, dataLayer!!.getNumberOfMeasurementsForCity("Strasbourg"))
     }
 
