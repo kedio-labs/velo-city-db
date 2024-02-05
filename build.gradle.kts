@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.22"
     application
 }
 
@@ -11,21 +11,21 @@ repositories {
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.3.11")
-    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
-    implementation("org.yaml:snakeyaml:2.1")
-    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.2")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation("io.github.oshai:kotlin-logging-jvm:6.0.3")
+    implementation("org.yaml:snakeyaml:2.2")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.exposed:exposed-core:0.42.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.42.1")
-    implementation("org.jetbrains.exposed:exposed-java-time:0.42.1")
-    implementation("org.xerial:sqlite-jdbc:3.42.0.1")
-    implementation("com.github.ajalt.clikt:clikt:4.2.0")
+    implementation("org.jetbrains.exposed:exposed-core:0.47.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.47.0")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.47.0")
+    implementation("org.xerial:sqlite-jdbc:3.45.1.0")
+    implementation("com.github.ajalt.clikt:clikt:4.2.2")
     testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    testImplementation("io.mockk:mockk:1.13.7")
-    testImplementation("com.github.tomakehurst:wiremock-jre8:2.35.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("org.wiremock:wiremock:3.3.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 }
 
