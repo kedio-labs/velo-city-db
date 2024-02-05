@@ -13,7 +13,7 @@ class ParisCsvParser(override val ingest: (List<CityTrafficMeasurement>) -> Unit
     override val batch = mutableListOf<CityTrafficMeasurement>()
 
     override fun parseAndIngest(absoluteFilePath: String) {
-        validateRelativeFilePath(absoluteFilePath)
+        validateFilePath(absoluteFilePath)
 
         csvReader {
             delimiter = ';'

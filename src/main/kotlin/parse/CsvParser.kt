@@ -30,18 +30,18 @@ interface CsvParser {
      * Parses a given CSV file and ingests into DB.
      * Implementation code would typically ingest in batches. See BATCH_SIZE.
      *
-     * @param absoluteFilePath CSV file path relative to the "resources" directory.
+     * @param absoluteFilePath CSV file path to the "resources" directory.
      */
     fun parseAndIngest(absoluteFilePath: String)
 
     /**
      * Validates filepath.
      *
-     * @param absoluteFilePath filepath to validate
+     * @param filePath filepath to validate
      */
-    fun validateRelativeFilePath(absoluteFilePath: String) {
-        if (absoluteFilePath.trim() == "") {
-            throw IllegalArgumentException("Relative file path must not be empty")
+    fun validateFilePath(filePath: String) {
+        if (filePath.trim() == "") {
+            throw IllegalArgumentException("File path must not be empty")
         }
     }
 

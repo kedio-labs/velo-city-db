@@ -28,7 +28,7 @@ class BordeauxCsvParserTest {
 
         // then
         verify { ingestMock wasNot Called }
-        assertEquals("Relative file path must not be empty", actualException.message)
+        assertEquals("File path must not be empty", actualException.message)
     }
 
     @Test

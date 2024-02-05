@@ -14,7 +14,7 @@ class NantesCsvParser(override val ingest: (List<CityTrafficMeasurement>) -> Uni
     override val batch = mutableListOf<CityTrafficMeasurement>()
 
     override fun parseAndIngest(absoluteFilePath: String) {
-        validateRelativeFilePath(absoluteFilePath)
+        validateFilePath(absoluteFilePath)
 
         val zoneId = ZoneId.of("Europe/Paris")
 

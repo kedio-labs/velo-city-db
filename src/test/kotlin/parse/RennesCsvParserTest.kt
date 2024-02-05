@@ -28,7 +28,7 @@ class RennesCsvParserTest {
 
         // then
         verify { ingestMock wasNot Called }
-        Assertions.assertEquals("Relative file path must not be empty", actualException.message)
+        Assertions.assertEquals("File path must not be empty", actualException.message)
     }
 
     @Test
