@@ -5,6 +5,7 @@ private val logger = KotlinLogging.logger {}
 
 private const val DATA_SOURCE_CITY_NAME_KEY = "name"
 private const val DATA_SOURCE_CITY_URL_KEY = "url"
+private const val DATA_SOURCE_CITY_DOWNLOAD_TYPE_KEY = "download_type"
 
 class DataSourcesConfigLoader {
 
@@ -38,6 +39,11 @@ class DataSourcesConfigLoader {
                 // this will ensure we get "String" as opposed to "String?"
                 val cityName = map.getValue(DATA_SOURCE_CITY_NAME_KEY)
                 val cityUrl = map.getValue(DATA_SOURCE_CITY_URL_KEY)
+                val downloadTypeAsString = map.getValue(DATA_SOURCE_CITY_DOWNLOAD_TYPE_KEY)
+
+                val downloadType = DownloadType.entries.find { it.type == downloadTypeAsString }
+                    ?: throw IllegalArgumentException("Unknown download type: $downloadTypeAsString")
+
 
                 try {
                     // look for a CSV parser class for that city name
@@ -47,6 +53,7 @@ class DataSourcesConfigLoader {
                     result += DataSourceConfig(
                         cityName,
                         cityUrl,
+                        downloadType,
                         "${csvTargetFilesDirectoryAbsolutePath}/${cityName}.csv",
                         csvParserClass
                     )

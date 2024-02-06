@@ -1,6 +1,7 @@
 package download
 
 import DataSourceConfig
+import DownloadType
 import HasResourcePathGetter.Companion.getResourcePath
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
@@ -27,18 +28,21 @@ class CsvParallelDownloaderTest {
             DataSourceConfig(
                 "does_not_matter",
                 "http://localhost:${wmRuntimeInfo.httpPort}/url1",
+                DownloadType.SINGLE_FILE,
                 "does_not_matter",
                 Class.forName("java.lang.String") // does not matter
             ),
             DataSourceConfig(
                 "does_not_matter",
                 "http://localhost:${wmRuntimeInfo.httpPort}/url2",
+                DownloadType.SINGLE_FILE,
                 "does_not_matter",
                 Class.forName("java.lang.String") // does not matter
             ),
             DataSourceConfig(
                 "does_not_matter",
                 "http://localhost:${wmRuntimeInfo.httpPort}/url3",
+                DownloadType.SINGLE_FILE,
                 "does_not_matter",
                 Class.forName("java.lang.String") // does not matter
             ),
@@ -64,18 +68,21 @@ class CsvParallelDownloaderTest {
             DataSourceConfig(
                 "does_not_matter",
                 "http://localhost:${wmRuntimeInfo.httpPort}/url1",
+                DownloadType.SINGLE_FILE,
                 "does_not_matter",
                 Class.forName("java.lang.String") // does not matter
             ),
             DataSourceConfig(
                 "does_not_matter",
                 "http://localhost:${wmRuntimeInfo.httpPort}/url2",
+                DownloadType.SINGLE_FILE,
                 "does_not_matter",
                 Class.forName("java.lang.String") // does not matter
             ),
             DataSourceConfig(
                 "does_not_matter",
                 "http://localhost:${wmRuntimeInfo.httpPort}/url3",
+                DownloadType.SINGLE_FILE,
                 "does_not_matter",
                 Class.forName("java.lang.String") // does not matter
             ),

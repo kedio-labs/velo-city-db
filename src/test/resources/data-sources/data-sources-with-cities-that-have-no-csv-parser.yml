@@ -1,8 +1,12 @@
 - name: ThisCityHasNoCsvParser1
   url: https://some-csv-url-1
+  download_type: single_file
 - name: Bordeaux
   url: https://bordeaux-url
+  download_type: single_file
 - name: Nantes
   url: https://nantes-url
+  download_type: single_file
 - name: ThisCityHasNoCsvParser2
   url: https://some-csv-url-2
+  download_type: single_file

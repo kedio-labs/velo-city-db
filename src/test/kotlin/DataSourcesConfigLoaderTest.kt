@@ -37,6 +37,16 @@ class DataSourcesConfigLoaderTest {
     }
 
     @Test
+    fun loadThrowsAnExceptionWhenDownloadTypeInvalid() {
+        assertThrows<IllegalArgumentException> {
+            DataSourcesConfigLoader().load(
+                "/data-sources/data-sources-invalid-download-type.yml",
+                "does_not_matter"
+            )
+        }
+    }
+
+    @Test
     fun loadReturnsEmptyMapWhenYamlFileEmpty() {
         val actual = DataSourcesConfigLoader().load("/data-sources/data-sources-empty.yml", "does_not_matter")
 
@@ -57,12 +67,14 @@ class DataSourcesConfigLoaderTest {
                 DataSourceConfig(
                     "Bordeaux",
                     "https://bordeaux-url",
+                    DownloadType.SINGLE_FILE,
                     "${expectedCsvTargetFilesDirectoryAbsolutePath}/Bordeaux.csv",
                     BordeauxCsvParser {}.javaClass
                 ),
                 DataSourceConfig(
                     "Nantes",
                     "https://nantes-url",
+                    DownloadType.SINGLE_FILE,
                     "${expectedCsvTargetFilesDirectoryAbsolutePath}/Nantes.csv",
                     NantesCsvParser {}.javaClass
                 )
