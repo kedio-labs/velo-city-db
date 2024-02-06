@@ -3,6 +3,9 @@ import org.yaml.snakeyaml.Yaml
 
 private val logger = KotlinLogging.logger {}
 
+private const val DATA_SOURCE_CITY_NAME_KEY = "name"
+private const val DATA_SOURCE_CITY_URL_KEY = "url"
+
 class DataSourcesConfigLoader {
 
     fun load(
@@ -26,14 +29,19 @@ class DataSourcesConfigLoader {
             ?: throw IllegalStateException("File not found: $dataSourceConfigRelativePath")
 
         val yaml = Yaml()
-        val dataSources = yaml.load<Map<String, String>>(dataSourceConfigStream)
+        val dataSources = yaml.load<List<Map<String, String>>>(dataSourceConfigStream)
 
         if (!dataSources.isNullOrEmpty()) {
             // check if all cities have a corresponding CSV parser
-            val citiesWithoutCsvParser = dataSources.entries.filter { (cityName, cityUrl) ->
+            val citiesWithoutCsvParser = dataSources.filter { map ->
+                // use getValue() as we know the keys for each city's key-value pairs
+                // this will ensure we get "String" as opposed to "String?"
+                val cityName = map.getValue(DATA_SOURCE_CITY_NAME_KEY)
+                val cityUrl = map.getValue(DATA_SOURCE_CITY_URL_KEY)
+
                 try {
-                    // first, look for a CSV parser class that city name. The line below will throw a ClassNotFoundException
-                    // if no parser found. This is expected
+                    // look for a CSV parser class for that city name
+                    // the line below will throw a ClassNotFoundException if no parser found. This is expected :)
                     val csvParserClass = Class.forName("parse.${cityName}CsvParser", false, javaClass.classLoader)
 
                     result += DataSourceConfig(

@@ -1,5 +1,10 @@
-Bordeaux: https://opendata.bordeaux-metropole.fr/api/explore/v2.1/catalog/datasets/pc_captv_p_histo_heure/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
-Nantes: https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_comptages-velo-nantes-metropole/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
-Paris: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage-velo-donnees-compteurs/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B
-Rennes: https://data.rennesmetropole.fr/api/explore/v2.1/catalog/datasets/eco-counter-data/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
-Strasbourg: https://strasbourgvelo.fr/compteurs.csv
+- name: Bordeaux
+  url: https://opendata.bordeaux-metropole.fr/api/explore/v2.1/catalog/datasets/pc_captv_p_histo_heure/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
+- name: Nantes
+  url: https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_comptages-velo-nantes-metropole/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
+- name: Paris
+  url: https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage-velo-donnees-compteurs/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B
+- name: Rennes
+  url: https://data.rennesmetropole.fr/api/explore/v2.1/catalog/datasets/eco-counter-data/exports/csv?lang=fr&timezone=Europe%2FBerlin&use_labels=true&delimiter=%3B
+- name: Strasbourg
+  url: https://strasbourgvelo.fr/compteurs.csv

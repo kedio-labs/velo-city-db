@@ -1,4 +1,8 @@
-ThisCityHasNoCsvParser1: https://some-csv-url-1
-Bordeaux: https://bordeaux-url
-ThisCityHasNoCsvParser2: https://some-csv-url-2
-Nantes: https://nantes-url
+- name: ThisCityHasNoCsvParser1
+  url: https://some-csv-url-1
+- name: Bordeaux
+  url: https://bordeaux-url
+- name: Nantes
+  url: https://nantes-url
+- name: ThisCityHasNoCsvParser2
+  url: https://some-csv-url-2
