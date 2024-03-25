@@ -11,22 +11,22 @@ repositories {
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation("ch.qos.logback:logback-classic:1.5.3")
     implementation("io.github.oshai:kotlin-logging-jvm:6.0.3")
     implementation("org.yaml:snakeyaml:2.2")
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.exposed:exposed-core:0.47.0")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.47.0")
-    implementation("org.jetbrains.exposed:exposed-java-time:0.47.0")
-    implementation("org.xerial:sqlite-jdbc:3.45.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.jetbrains.exposed:exposed-core:0.48.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.48.0")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.48.0")
+    implementation("org.xerial:sqlite-jdbc:3.45.2.0")
     implementation("com.github.ajalt.clikt:clikt:4.2.2")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
-    testImplementation("io.mockk:mockk:1.13.9")
-    testImplementation("org.wiremock:wiremock:3.3.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("org.wiremock:wiremock:3.4.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
 }
 
 tasks {
