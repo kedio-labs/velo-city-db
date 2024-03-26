@@ -14,10 +14,10 @@ import java.nio.channels.ReadableByteChannel
 
 private val logger = KotlinLogging.logger {}
 
-class UrlContentDownloader {
+class SingleFileDownloader {
     // these properties are declared here to easy unit testing of their successful closure
     // those unit tests unfortunately have hard-coded knowledge of the property names
-    // see tests in UrlContentDownloaderTest for more details
+    // see tests in SingleFileDownloaderTest for more details
     private lateinit var urlInputStream: InputStream
     private lateinit var urlReadableByteChannel: ReadableByteChannel
     private lateinit var fileOutputStream: FileOutputStream
@@ -38,7 +38,7 @@ class UrlContentDownloader {
 
             logger.info { "Transferring data from $url" }
 
-            targetFileChannel.transferFrom(urlReadableByteChannel, TRANSFER_POSITION, Long.MAX_VALUE)
+             targetFileChannel.transferFrom(urlReadableByteChannel, TRANSFER_POSITION, Long.MAX_VALUE)
 
             logger.info { "Download completed" }
 

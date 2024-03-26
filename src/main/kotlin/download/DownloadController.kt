@@ -16,7 +16,7 @@ class CsvParallelDownloader {
 
         dataSourceConfigs.map {
             async {
-                val result = UrlContentDownloader().download(it.url, it.targetFilePath)
+                val result = SingleFileDownloader().download(it.url, it.targetFilePath)
                 if (result) {
                     logger.info { "Successfully downloaded CSV file for city ${it.city} from URL ${it.url} to target path ${it.targetFilePath}" }
                 } else {

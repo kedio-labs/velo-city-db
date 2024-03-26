@@ -109,7 +109,7 @@ class CsvParallelDownloaderTest {
 
             deleteTemporaryDirectory()
             val temporaryDirectoryCreated = createTemporaryDirectory()
-            assertTrue("Could not create temporary directory for the CSV downloader tests") { temporaryDirectoryCreated }
+            assertTrue("Could not create temporary directory for tests") { temporaryDirectoryCreated }
         }
 
         @JvmStatic

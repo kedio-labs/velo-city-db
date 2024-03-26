@@ -1,5 +1,6 @@
 package download
 
+import HasPrivateClassFieldGetter
 import HasResourcePathGetter.Companion.getResourcePath
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.http.Fault
@@ -19,32 +20,23 @@ import java.io.InputStream
 import java.nio.channels.FileChannel
 import java.nio.channels.ReadableByteChannel
 import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.test.assertContentEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @WireMockTest
-class UrlContentDownloaderTest {
-
-    /**
-     * Gets a named private field of a given class instance.
-     */
-    private fun <T : Any, V> getPrivateClassField(classInstance: T, fieldName: String): V {
-        val field = (classInstance).javaClass.getDeclaredField(fieldName)
-        field.isAccessible = true
-        @Suppress("UNCHECKED_CAST")
-        return field.get(classInstance) as V
-    }
+class SingleFileDownloaderTest : HasPrivateClassFieldGetter {
 
     @Test
     fun downloadSavesFileToTargetLocation(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
 
-        val sourceCsvFilename = "expected-bicycle-traffic-data.csv"
+        val sourceCsvFilename = "single-file-downloader-source-data.csv"
 
         // WireMock expects files served by its underlying server to be under the directory "/resources/__files"
-        // see https://github.com/wiremock/wiremock/blob/master/src/main/java/com/github/tomakehurst/wiremock/core/WireMockApp.java#L47
-        val sourceCsvFilePath = getResourcePath("/__files/csv/${sourceCsvFilename}")
-        val targetCsvFilePath = "${temporaryDirectory}/downloaded-bicycle-traffic-data.csv"
+        // see https://github.com/wiremock/wiremock/blob/master/src/main/java/com/github/tomakehurst/wiremock/core/WireMockApp.java#L48
+        val sourceFilePath = getResourcePath("/__files/csv/${sourceCsvFilename}")
+        val targetFilePath = "${temporaryDirectory}/downloaded-bicycle-traffic-data.csv"
 
         // This test case includes a redirect to the actual file
         stubFor(get("/redirect").willReturn(permanentRedirect("/${sourceCsvFilename}")))
@@ -66,89 +58,89 @@ class UrlContentDownloaderTest {
                 )
         )
 
-        val result = UrlContentDownloader().download(
+        val result = SingleFileDownloader().download(
             "http://localhost:${wmRuntimeInfo.httpPort}/redirect",
-            targetCsvFilePath
+            targetFilePath
         )
 
 
         assertTrue("Expected download to be successful") { result }
 
-        assertTrue("Expected target file to be created") { File(targetCsvFilePath).exists() }
+        assertTrue("Expected target file to be created") { File(targetFilePath).exists() }
 
-        val expectedFileContent = Files.lines(File(sourceCsvFilePath).toPath()).toArray()
-        val actualFileContent = Files.lines(File(targetCsvFilePath).toPath()).toArray()
+        val expectedFileContent = Files.lines(Paths.get(sourceFilePath)).toArray()
+        val actualFileContent = Files.lines(Paths.get(targetFilePath)).toArray()
 
         assertContentEquals(expectedFileContent, actualFileContent)
     }
 
     @Test
-    fun downloadReturnsFailsOnNotFound(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
+    fun downloadFailsOnNotFound(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
         val notFound = "not-found.csv"
 
-        val targetCsvFilePath = "${temporaryDirectory}/actual-not-found.csv"
+        val targetFilePath = "${temporaryDirectory}/actual-not-found.csv"
         stubFor(get("/${notFound}").willReturn(notFound()))
 
-        val result = UrlContentDownloader().download(
+        val result = SingleFileDownloader().download(
             "http://localhost:${wmRuntimeInfo.httpPort}/${notFound}",
-            targetCsvFilePath // should not be created
+            targetFilePath // should not be created
         )
 
         assertFalse("Expected download to fail") { result }
 
-        assertFalse("Expected target file to not be created") { File(targetCsvFilePath).exists() }
+        assertFalse("Expected target file to not be created") { File(targetFilePath).exists() }
     }
 
     @Test
     fun downloadFailsOnServerError(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
         val serverError = "server-error.csv"
 
-        val targetCsvFilePath = "${temporaryDirectory}/actual-server-error.csv"
+        val targetFilePath = "${temporaryDirectory}/actual-server-error.csv"
         stubFor(get("/${serverError}").willReturn(serverError()))
 
-        val result = UrlContentDownloader().download(
+        val result = SingleFileDownloader().download(
             "http://localhost:${wmRuntimeInfo.httpPort}/${serverError}",
-            targetCsvFilePath // should not be created
+            targetFilePath // should not be created
         )
 
         assertFalse("Expected download to fail") { result }
 
-        assertFalse("Expected target file to not be created") { File(targetCsvFilePath).exists() }
+        assertFalse("Expected target file to not be created") { File(targetFilePath).exists() }
     }
 
     @Test
     // Warning: this test is likely not working on Windows, as per the WireMock documentation: https://wiremock.org/docs/simulating-faults/#bad-responses
-    fun downloadReturnsFailsOnConnectionResetByPeer(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
+    fun downloadFailsOnConnectionResetByPeer(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
         val connectionReset = "connection-reset.csv"
 
-        val targetCsvFilePath = "${temporaryDirectory}/connection-reset.csv"
+        val targetFilePath = "${temporaryDirectory}/connection-reset.csv"
         stubFor(
             get("/${connectionReset}")
                 .willReturn(ok().withFault(Fault.MALFORMED_RESPONSE_CHUNK))
         )
 
-        val result = UrlContentDownloader().download(
+        val result = SingleFileDownloader().download(
             "http://localhost:${wmRuntimeInfo.httpPort}/${connectionReset}",
-            targetCsvFilePath // should not be created
+            targetFilePath // should not be created
         )
 
         assertFalse("Expected download to fail") { result }
 
-        assertFalse("Expected target file to not be created") { File(targetCsvFilePath).exists() }
+        assertFalse("Expected target file to not be created") { File(targetFilePath).exists() }
     }
 
     @Test
-    fun downloadClosesChannelsAndStreamsOnSuccess(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
+    fun downloadClosesChannelsAndStreamsOnCompletion(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
         /**
          * This test unfortunately has to hard-codedly know the names of private fields in CsvFileDownloader.
          * This is far from ideal but still provides a practical way that streams and channels are properly closed after use.
          */
 
-        val sourceCsvFilename = "expected-bicycle-traffic-data.csv"
+        val sourceCsvFilename = "single-file-downloader-source-data.csv"
 
         // WireMock expects files served by its underlying server to be under the directory "/resources/__files"
-        // see https://github.com/wiremock/wiremock/blob/master/src/main/java/com/github/tomakehurst/wiremock/core/WireMockApp.java#L47
-        val targetCsvFilePath = "${temporaryDirectory}/downloaded-bicycle-traffic-data.csv"
+        // see https://github.com/wiremock/wiremock/blob/master/src/main/java/com/github/tomakehurst/wiremock/core/WireMockApp.java#L48
+        val targetFilePath = "${temporaryDirectory}/downloaded-bicycle-traffic-data.csv"
 
         stubFor(
             get("/${sourceCsvFilename}")
@@ -168,22 +160,22 @@ class UrlContentDownloaderTest {
         )
 
 
-        val urlContentDownloader = UrlContentDownloader()
+        val urlContentDownloader = SingleFileDownloader()
         val result = urlContentDownloader.download(
             "http://localhost:${wmRuntimeInfo.httpPort}/${sourceCsvFilename}",
-            targetCsvFilePath
+            targetFilePath
         )
 
         assertTrue("Expected download to be successful") { result }
 
         assertThrows<IOException> {
-            val stream = getPrivateClassField<UrlContentDownloader, InputStream>(urlContentDownloader, "urlInputStream")
+            val stream = getPrivateClassField<SingleFileDownloader, InputStream>(urlContentDownloader, "urlInputStream")
             stream.available()
         }
 
         assertFalse {
             val channel =
-                getPrivateClassField<UrlContentDownloader, ReadableByteChannel>(
+                getPrivateClassField<SingleFileDownloader, ReadableByteChannel>(
                     urlContentDownloader,
                     "urlReadableByteChannel"
                 )
@@ -192,21 +184,21 @@ class UrlContentDownloaderTest {
 
         assertThrows<IOException> {
             val stream =
-                getPrivateClassField<UrlContentDownloader, FileOutputStream>(urlContentDownloader, "fileOutputStream")
+                getPrivateClassField<SingleFileDownloader, FileOutputStream>(urlContentDownloader, "fileOutputStream")
 
             stream.write(0)
         }
 
         assertFalse {
             val channel =
-                getPrivateClassField<UrlContentDownloader, FileChannel>(urlContentDownloader, "targetFileChannel")
+                getPrivateClassField<SingleFileDownloader, FileChannel>(urlContentDownloader, "targetFileChannel")
 
             channel.isOpen
         }
     }
 
     companion object {
-        private val temporaryDirectory = "${getResourcePath("/")}csv_download_test_temp"
+        private val temporaryDirectory = "${getResourcePath("/")}single_file_downloader_test_temp"
 
         private fun createTemporaryDirectory() = File(temporaryDirectory).mkdir()
         private fun deleteTemporaryDirectory() = File(temporaryDirectory).deleteRecursively()
@@ -214,10 +206,9 @@ class UrlContentDownloaderTest {
         @JvmStatic
         @BeforeAll
         fun beforeAll() {
-
             deleteTemporaryDirectory()
             val temporaryDirectoryCreated = createTemporaryDirectory()
-            assertTrue("Could not create temporary directory for the CSV downloader tests") { temporaryDirectoryCreated }
+            assertTrue("Could not create temporary directory for tests") { temporaryDirectoryCreated }
         }
 
         @JvmStatic
