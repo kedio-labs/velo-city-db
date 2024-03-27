@@ -6,7 +6,7 @@ COPY src ./src
 
 RUN gradle fatJar
 
-FROM eclipse-temurin:11-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
 WORKDIR /app
 # There is actually only one JAR in the libs directory. The command below uses a wildcard so that it works with any version of the jar.
