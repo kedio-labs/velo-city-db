@@ -7,7 +7,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
-import java.net.URL
+import java.net.URI
 import java.nio.channels.Channels
 import java.nio.channels.FileChannel
 import java.nio.channels.ReadableByteChannel
@@ -28,7 +28,7 @@ class SingleFileDownloader {
         try {
             logger.info { "Downloading content from URL $url" }
 
-            val urlInstance = URL(url)
+            val urlInstance = URI(url).toURL()
 
             urlInputStream = urlInstance.openStream()
             urlReadableByteChannel = Channels.newChannel(urlInputStream)
@@ -38,7 +38,7 @@ class SingleFileDownloader {
 
             logger.info { "Transferring data from $url" }
 
-             targetFileChannel.transferFrom(urlReadableByteChannel, TRANSFER_POSITION, Long.MAX_VALUE)
+            targetFileChannel.transferFrom(urlReadableByteChannel, TRANSFER_POSITION, Long.MAX_VALUE)
 
             logger.info { "Download completed" }
 
