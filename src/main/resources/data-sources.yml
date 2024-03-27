@@ -13,3 +13,6 @@
 - name: Strasbourg
   url: https://strasbourgvelo.fr/compteurs.csv
   download_type: single_file
+- name: Camden
+  url: https://opendata.camden.gov.uk/resource/it3h-aqrf.csv
+  download_type: paginated_socrata_api

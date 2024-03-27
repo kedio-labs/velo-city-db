@@ -1,6 +1,8 @@
 package download
 
 import DataSourceConfig
+import DownloadType
+import download.socrata.SocrataDownloader
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -16,7 +18,9 @@ class CsvParallelDownloader {
 
         dataSourceConfigs.map {
             async {
-                val result = SingleFileDownloader().download(it.url, it.targetFilePath)
+                val downloader: Downloader =
+                    if (it.downloadType == DownloadType.SINGLE_FILE) SingleFileDownloader() else SocrataDownloader()
+                val result = downloader.download(it.url, it.targetFilePath)
                 if (result) {
                     logger.info { "Successfully downloaded CSV file for city ${it.city} from URL ${it.url} to target path ${it.targetFilePath}" }
                 } else {

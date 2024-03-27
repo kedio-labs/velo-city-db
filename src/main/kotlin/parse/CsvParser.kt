@@ -44,7 +44,6 @@ interface CsvParser {
             throw IllegalArgumentException("File path must not be empty")
         }
     }
-
     companion object {
         private const val INGESTION_BATCH_SIZE = 5000
     }

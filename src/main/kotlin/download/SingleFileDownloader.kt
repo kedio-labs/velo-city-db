@@ -14,7 +14,7 @@ import java.nio.channels.ReadableByteChannel
 
 private val logger = KotlinLogging.logger {}
 
-class SingleFileDownloader {
+class SingleFileDownloader : Downloader {
     // these properties are declared here to easy unit testing of their successful closure
     // those unit tests unfortunately have hard-coded knowledge of the property names
     // see tests in SingleFileDownloaderTest for more details
@@ -23,7 +23,7 @@ class SingleFileDownloader {
     private lateinit var fileOutputStream: FileOutputStream
     private lateinit var targetFileChannel: FileChannel
 
-    suspend fun download(url: String, targetPath: String): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun download(url: String, targetFilePath: String): Boolean = withContext(Dispatchers.IO) {
 
         try {
             logger.info { "Downloading content from URL $url" }
@@ -33,7 +33,7 @@ class SingleFileDownloader {
             urlInputStream = urlInstance.openStream()
             urlReadableByteChannel = Channels.newChannel(urlInputStream)
 
-            fileOutputStream = FileOutputStream(targetPath)
+            fileOutputStream = FileOutputStream(targetFilePath)
             targetFileChannel = fileOutputStream.getChannel()
 
             logger.info { "Transferring data from $url" }
@@ -47,7 +47,7 @@ class SingleFileDownloader {
         // all non-runtime exceptions thrown in the try block above are subclasses of IOException
         catch (e: IOException) {
             logger.warn(e) { "Exception while downloading file at URL $url" }
-            File(targetPath).delete()
+            File(targetFilePath).delete()
             return@withContext false
         } finally {
             if (::urlInputStream.isInitialized) {

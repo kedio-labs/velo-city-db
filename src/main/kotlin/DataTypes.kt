@@ -1,4 +1,5 @@
 import java.time.Instant
+import java.time.ZoneId
 
 data class CityTrafficMeasurement(
     val city: String,
@@ -9,8 +10,7 @@ data class CityTrafficMeasurement(
 
 enum class DownloadType(val type: String) {
     SINGLE_FILE("single_file"),
-    PAGINATED_SOCRATA_API("paginated_socrata_api"),
-    REMOVE_ME("REMOVE_ME")
+    PAGINATED_SOCRATA_API("paginated_socrata_api")
 }
 
 data class DataSourceConfig(
@@ -19,4 +19,9 @@ data class DataSourceConfig(
     val downloadType: DownloadType,
     val targetFilePath: String,
     val className: Class<*>
+)
+
+data class SocrataCityInfo(
+    val cityName: String,
+    val zoneId: ZoneId
 )

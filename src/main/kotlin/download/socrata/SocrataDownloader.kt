@@ -1,5 +1,6 @@
 package download.socrata
 
+import download.Downloader
 import download.SingleFileDownloader
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,7 @@ import kotlin.io.path.Path
 
 private val logger = KotlinLogging.logger {}
 
-class SocrataDownloader {
+class SocrataDownloader(private val recordsBatchSize: Long = RECORDS_BATCH_SIZE) : Downloader {
     // these properties are declared here to easy unit testing of their successful closure
     // those unit tests unfortunately have hard-coded knowledge of the property names
     // see tests in SocrataDownloaderTest for more details
@@ -22,13 +23,16 @@ class SocrataDownloader {
     private suspend fun downloadInternal(
         recordsBatchSize: Long,
         baseUrl: String,
-        targetPath: String,
+        targetFilePath: String,
         pageNumber: Int
     ): Pair<Boolean, Int> {
+
+        logger.info { "Downloading results page $pageNumber for base URL $baseUrl" }
+
         val offset = pageNumber * recordsBatchSize
 
         val url = "${baseUrl}?\$order=:id&\$limit=${recordsBatchSize}&\$offset=${offset}"
-        val batchTargetPath = getBatchResultsFilePath(targetPath, pageNumber)
+        val batchTargetPath = getBatchResultsFilePath(targetFilePath, pageNumber)
 
         val result = SingleFileDownloader().download(url, batchTargetPath)
         if (!result) {
@@ -41,17 +45,16 @@ class SocrataDownloader {
             return Pair(true, pageNumber)
         }
 
-        return downloadInternal(recordsBatchSize, baseUrl, targetPath, pageNumber + 1)
+        return downloadInternal(recordsBatchSize, baseUrl, targetFilePath, pageNumber + 1)
     }
 
 
-    suspend fun download(
-        baseUrl: String,
-        targetFilePath: String,
-        recordsBatchSize: Long = RECORDS_BATCH_SIZE
+    override suspend fun download(
+        url: String,
+        targetFilePath: String
     ): Boolean =
         withContext(Dispatchers.IO) {
-            val result = downloadInternal(recordsBatchSize, baseUrl, targetFilePath, 0)
+            val result = downloadInternal(recordsBatchSize, url, targetFilePath, 0)
             if (!result.first) {
                 return@withContext false
             }
@@ -72,7 +75,7 @@ class SocrataDownloader {
             }
             // all non-runtime exceptions thrown in the try block above are subclasses of IOException
             catch (e: IOException) {
-                logger.warn(e) { "Exception while downloading file at URL $baseUrl" }
+                logger.warn(e) { "Exception while downloading file at URL $url" }
                 File(targetFilePath).delete()
                 return@withContext false
             } finally {
@@ -87,6 +90,6 @@ class SocrataDownloader {
     companion object {
         private const val RECORDS_BATCH_SIZE = 500000L
 
-        private fun getBatchResultsFilePath(targetPath: String, pageNumber: Int) = "${targetPath}_${pageNumber}"
+        private fun getBatchResultsFilePath(targetFilePath: String, pageNumber: Int) = "${targetFilePath}_${pageNumber}"
     }
 }

@@ -24,7 +24,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @WireMockTest
-class SocrataDownloaderTest: HasPrivateClassFieldGetter {
+class SocrataDownloaderTest : HasPrivateClassFieldGetter {
 
     @Test
     fun downloadSavesFileToTargetLocation(wmRuntimeInfo: WireMockRuntimeInfo) = runTest {
@@ -65,10 +65,9 @@ class SocrataDownloaderTest: HasPrivateClassFieldGetter {
         }
 
         val targetFilePath = "$temporaryDirectory/downloaded-bicycle-traffic-data.csv"
-        val result = SocrataDownloader().download(
+        val result = SocrataDownloader(recordsBatchSize).download(
             "http://localhost:${wmRuntimeInfo.httpPort}/redirect.csv",
-            targetFilePath,
-            recordsBatchSize
+            targetFilePath
         )
 
         assertTrue("Expected download to be successful") { result }
