@@ -1,3 +1,10 @@
+0.2.0
+- Add cycle counters data for Camden, London (United Kingdom) and Rennes (France)
+- Add ability to run VéloCityDB in a Docker container
+- Add Makefile
+- Upgrade project dependency versions
+- Small fixes
+
 0.1.0
 - Initial release :)
 - Included cities: Bordeaux (France), Nantes (France), Paris (France), Strasbourg (France)

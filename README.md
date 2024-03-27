@@ -83,11 +83,11 @@ mkdir data
 
 # Passing specific flags
 # See all available flags
-java -jar velo-city-db-0.1.0-standalone.jar --help
+java -jar velo-city-db-0.2.0-standalone.jar --help
 # Ingest into a new database that will be created under /database/target/directory
-java -jar velo-city-db-0.1.0-standalone.jar --data-directory-path $(pwd)/data
+java -jar velo-city-db-0.2.0-standalone.jar --data-directory-path $(pwd)/data
 # Force re-download existing CSV files 
-java -jar velo-city-db-0.1.0-standalone.jar --override-csv-files true --data-directory-path $(pwd)/data
+java -jar velo-city-db-0.2.0-standalone.jar --override-csv-files true --data-directory-path $(pwd)/data
 ```
 
 Once the process has completed, you should have a new SQLite database located in the directory named `data`.
